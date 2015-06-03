@@ -42,13 +42,30 @@ namespace TurboRango.ImportadorXML
                 Console.WriteLine(pedreiro);
             #endregion
 
-            const string nomeArquivo = "restaurantes.xml";
+            #region Exercícios
+                const string nomeArquivo = "restaurantes.xml";
 
-            var restaurantesXML = new RestaurantesXML(nomeArquivo);
-            var nomes  = restaurantesXML.ObterNomes();
-            var capacidadeMedia = restaurantesXML.CapacidadeMedia();
-            var capacidadeMaxima = restaurantesXML.CapacidadeMax();
-            var porCategoria = restaurantesXML.AgruparPorCategoria();
+                var restaurantesXML = new RestaurantesXML(nomeArquivo);
+                var nomes  = restaurantesXML.ObterNomes();
+                var capacidadeMedia = restaurantesXML.CapacidadeMedia();
+                var capacidadeMaxima = restaurantesXML.CapacidadeMax();
+                var porCategoria = restaurantesXML.AgruparPorCategoria();
+                #endregion
+
+            #region ADD.NET
+                var connString = @"Data Source=.;Initial Catalog=TurboRango_dev; Integrated Security=True;";
+                // Usuário feevale = var connString = @"Data Source=.;Initial Catalog=TurboRango_dev; Integrated Segurity=True;UID=sa;PWD=feevale";
+
+                var acessoAoBanco = new CarinhaQueManipulaOBanco(connString);
+
+                acessoAoBanco.Inserir(new Contato {
+                    Site = "www.camigoal.com.br",
+                    Telefone = "55991096010"
+                });
+
+                IEnumerable<Contato> contatos = acessoAoBanco.GetContatos();
+            #endregion
+
         }
     }
 }
