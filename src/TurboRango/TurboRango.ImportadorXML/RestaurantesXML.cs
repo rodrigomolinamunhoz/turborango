@@ -161,5 +161,34 @@ namespace TurboRango.ImportadorXML
                 select new { Bairro = g.Key, Percentual = Math.Round(Convert.ToDouble(g.Count() * 100) / totalRestaurantes, 2) }
             ).OrderByDescending(g => g.Percentual);
         }
+
+        public IEnumerable<Restaurante> TodosRestaurantes()
+        {
+            return (
+                from n in restaurantes
+                let contato = n.Element("contato")
+                let site = contato != null && contato.Element("site") != null ? contato.Element("site").Value : null
+                let telefone = contato != null && contato.Element("telefone") != null ? contato.Element("telefone").Value : null
+                let localizacao = n.Element("localizacao")
+                select new Restaurante
+                {
+                     Nome = n.Attribute("nome").Value,
+                     Capacidade = Convert.ToInt32(n.Attribute("capacidade").Value),
+                     Categoria = (Categoria)Enum.Parse(typeof(Categoria), n.Attribute("categoria").Value, ignoreCase: true),
+                     Contato = new Contato
+                     {
+                          Site = site,
+                          Telefone = telefone
+                     },
+                     Localizacao = new Localizacao
+                     {
+                          Bairro = localizacao.Element("bairro").Value,
+                          Logradouro = localizacao.Element("logradouro").Value,
+                          Latitude = Convert.ToDouble(localizacao.Element("latitude").Value),
+                          Longitude = Convert.ToDouble(localizacao.Element("longitude").Value)
+                     }
+                }
+            );
+        }
     }
 }

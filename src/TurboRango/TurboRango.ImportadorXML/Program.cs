@@ -60,6 +60,8 @@ namespace TurboRango.ImportadorXML
             var ex1f = restaurantesXML.ApenasMaisPopulares();
             var ex1g = restaurantesXML.BairrosComMenosPizzarias();
             var ex1h = restaurantesXML.AgrupadosPorBairroPercentual();
+
+            var todos = restaurantesXML.TodosRestaurantes();
          }
     }
 }
