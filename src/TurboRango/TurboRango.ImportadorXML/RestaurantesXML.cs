@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using TurboRango.Dominio;
 
@@ -73,17 +71,86 @@ namespace TurboRango.ImportadorXML
             return mad.Max();
         }
 
-        public IList<Restaurante> AgruparPorCategoria()
+        public IList<string> OrdenarPorNomeAsc()
         {
-            var res = from n in restaurantes
-                      group n by n.Attribute("categoria").Value into g
-                      select new { 
-                          Categoria = g.Key,
-                          Restaurantes = g.ToList(),
-                          SomatorioCapacidades = g.Sum(x => Convert.ToInt32(x.Attribute("capacidade").Value))
-                      };
+            //return restaurantes.Select(_ => _.Attribute("nome").Value).OrderBy(_ => _).ToList();
+            return (
+                from n in restaurantes
+                orderby n.Attribute("nome").Value
+                select n.Attribute("nome").Value
+            ).ToList();
+        }
 
-            throw new NotImplementedException();
+        public IList<string> ObterSites()
+        {
+            //return restaurantes
+            //    .Where(n => n.Element("contato") != null && n.Element("contato").Element("site") != null && !String.IsNullOrEmpty(n.Element("contato").Value))
+            //    .Select(n => n.Element("contato").Element("site").Value)
+            //    .ToList();
+            return (
+                from n in restaurantes
+                let contato = n.Element("contato")
+                let site = contato != null ? contato.Element("site") : null
+                where site != null && !String.IsNullOrEmpty(site.Value)
+                select contato.Element("site").Value
+            ).ToList();
+        }
+
+        public object AgruparPorCategoria()
+        {
+            //return restaurantes.GroupBy(n => n.Attribute("categoria").Value).Select(g => new { Categoria = g.Key, Restaurantes = g.ToList() }).ToList();
+            return (
+                from n in restaurantes
+                group n by n.Attribute("categoria").Value into g
+                select new { Categoria = g.Key, Restaurantes = g.ToList() }
+            ).ToList();
+        }
+
+        public IList<Categoria> ApenasComUmRestaurante()
+        {
+            //return restaurantes.GroupBy(x => x.Attribute("categoria").Value).Where(g => g.Count() == 1).Select(g => (Categoria)Enum.Parse(typeof(Categoria), g.Key, ignoreCase: true)).ToList();
+            return (
+                from n in restaurantes
+                let cat = n.Attribute("categoria").Value
+                group n by cat into g
+                where g.Count() == 1
+                select (Categoria)Enum.Parse(typeof(Categoria), g.Key, ignoreCase: true)
+            ).ToList();
+        }
+
+        public IList<Categoria> ApenasMaisPopulares()
+        {
+            //return restaurantes.GroupBy(n => n.Attribute("categoria").Value).Where(g => g.Count() > 2).OrderByDescending(g => g.Count()).Take(2).Select(g => (Categoria)Enum.Parse(typeof(Categoria), g.Key, ignoreCase: true)).ToList();
+            return (
+                from n in restaurantes
+                group n by n.Attribute("categoria").Value into g
+                let groupLength = g.Count()
+                where groupLength > 2
+                orderby groupLength descending
+                select (Categoria)Enum.Parse(typeof(Categoria), g.Key, ignoreCase: true)
+            ).Take(2).ToList();
+        }
+
+        public IList<string> BairrosComMenosPizzarias()
+        {
+            //return restaurantes.GroupBy(n => n.Element("localizacao").Element("bairro").Value).OrderBy(g => g.Count()).Take(8).Select(g => g.Key).ToList();
+            return (
+                from n in restaurantes
+                group n by n.Element("localizacao").Element("bairro").Value into g
+                orderby g.Count()
+                select g.Key
+            ).Take(8).ToList();
+        }
+
+        public object AgrupadosPorBairroPercentual()
+        {
+            //return restaurantes.GroupBy(n => n.Element("localizacao").Element("bairro").Value).Select(g => new { Bairro = g.Key, Percentual = Math.Round(Convert.ToDouble(g.Count() * 100) / restaurantes.Count(), 2) }).OrderByDescending(g => g.Percentual);
+            return (
+                from n in restaurantes
+                group n by n.Element("localizacao").Element("bairro").Value into g
+                let totalRestaurantes = restaurantes.Count()
+                select new { Bairro = g.Key, Percentual = Math.Round(Convert.ToDouble(g.Count() * 100) / totalRestaurantes, 2) }
+            ).OrderByDescending(g => g.Percentual);
         }
     }
 }

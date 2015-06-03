@@ -51,7 +51,15 @@ namespace TurboRango.ImportadorXML
             var nomes = restaurantesXML.ObterNomes();
             var capacidadeMedia = restaurantesXML.CapacidadeMedia();
             var capacidadeMaxima = restaurantesXML.CapacidadeMaxima();
-            var porCategoria = restaurantesXML.AgruparPorCategoria();
-        }
+
+            var ex1a = restaurantesXML.OrdenarPorNomeAsc();
+            var ex1b = restaurantesXML.ObterSites();
+            var ex1c = restaurantesXML.CapacidadeMedia();
+            var ex1d = restaurantesXML.AgruparPorCategoria();
+            var ex1e = restaurantesXML.ApenasComUmRestaurante();
+            var ex1f = restaurantesXML.ApenasMaisPopulares();
+            var ex1g = restaurantesXML.BairrosComMenosPizzarias();
+            var ex1h = restaurantesXML.AgrupadosPorBairroPercentual();
+         }
     }
 }
