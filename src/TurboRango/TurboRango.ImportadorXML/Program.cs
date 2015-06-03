@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using TurboRango.Dominio;
 
@@ -45,6 +46,8 @@ namespace TurboRango.ImportadorXML
 
             #endregion
 
+            #region LINQ to XML
+
             const string nomeArquivo = "restaurantes.xml";
 
             var restaurantesXML = new RestaurantesXML(nomeArquivo);
@@ -62,6 +65,24 @@ namespace TurboRango.ImportadorXML
             var ex1h = restaurantesXML.AgrupadosPorBairroPercentual();
 
             var todos = restaurantesXML.TodosRestaurantes();
-         }
+
+            #endregion
+
+            #region ADO.NET
+
+            var connString = @"Data Source=.;Initial Catalog=TurboRango_dev;Integrated Security=True;";
+
+            var acessoAoBanco = new CarinhaQueManipulaOBanco(connString);
+
+            acessoAoBanco.Inserir(new Contato
+            {
+                 Site = "www.dogao.gif",
+                 Telefone = "5555555"
+            });
+
+            IEnumerable<Contato> contatos = acessoAoBanco.GetContatos();
+
+            #endregion
+        }
     }
 }
