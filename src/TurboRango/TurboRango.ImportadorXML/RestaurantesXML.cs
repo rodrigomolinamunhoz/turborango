@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using TurboRango.Dominio;
+using TurboRango.Dominio.Utils;
 
 namespace TurboRango.ImportadorXML
 {
@@ -108,33 +109,33 @@ namespace TurboRango.ImportadorXML
 
         public IList<Categoria> ApenasComUmRestaurante()
         {
-            //return restaurantes.GroupBy(x => x.Attribute("categoria").Value).Where(g => g.Count() == 1).Select(g => (Categoria)Enum.Parse(typeof(Categoria), g.Key, ignoreCase: true)).ToList();
+            //return restaurantes.GroupBy(x => x.Attribute("categoria").Value).Where(g => g.Count() == 1).Select(g => g.Key.ToEnum<Categoria>() ).ToList();
             return (
                 from n in restaurantes
                 let cat = n.Attribute("categoria").Value
                 group n by cat into g
                 where g.Count() == 1
-                select (Categoria)Enum.Parse(typeof(Categoria), g.Key, ignoreCase: true)
+                select g.Key.ToEnum<Categoria>()
             ).ToList();
         }
 
         public IList<Categoria> ApenasMaisPopulares()
         {
-            //return restaurantes.GroupBy(n => n.Attribute("categoria").Value).Where(g => g.Count() > 2).OrderByDescending(g => g.Count()).Take(2).Select(g => (Categoria)Enum.Parse(typeof(Categoria), g.Key, ignoreCase: true)).ToList();
+            //return restaurantes.GroupBy(n => n.Attribute("categoria").Value).Where(g => g.Count() > 2).OrderByDescending(g => g.Count()).Take(2).Select(g => g.Key.ToEnum<Categoria>() ).ToList();
             return (
                 from n in restaurantes
                 group n by n.Attribute("categoria").Value into g
                 let groupLength = g.Count()
                 where groupLength > 2
                 orderby groupLength descending
-                select (Categoria)Enum.Parse(typeof(Categoria), g.Key, ignoreCase: true)
+                select g.Key.ToEnum<Categoria>()
             ).Take(2).ToList();
         }
 
         public IList<string> BairrosComMenosPizzarias()
         {
             //return restaurantes
-            //    .Where(n => (Categoria)Enum.Parse(typeof(Categoria), n.Attribute("categoria").Value, ignoreCase: true) == Categoria.Pizzaria)
+            //    .Where(n => n.Attribute("categoria").Value.ToEnum<Categoria>() == Categoria.Pizzaria)
             //    .GroupBy(n => n.Element("localizacao").Element("bairro").Value)
             //    .OrderBy(g => g.Count())
             //    .Take(8)
@@ -142,7 +143,7 @@ namespace TurboRango.ImportadorXML
             //    .ToList();
             return (
                 from n in restaurantes
-                let cat = (Categoria)Enum.Parse(typeof(Categoria), n.Attribute("categoria").Value, ignoreCase: true)
+                let cat = n.Attribute("categoria").Value.ToEnum<Categoria>()
                 where cat == Categoria.Pizzaria
                 group n by n.Element("localizacao").Element("bairro").Value into g
                 orderby g.Count()
