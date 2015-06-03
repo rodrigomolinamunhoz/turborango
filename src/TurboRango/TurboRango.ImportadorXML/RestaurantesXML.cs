@@ -133,9 +133,17 @@ namespace TurboRango.ImportadorXML
 
         public IList<string> BairrosComMenosPizzarias()
         {
-            //return restaurantes.GroupBy(n => n.Element("localizacao").Element("bairro").Value).OrderBy(g => g.Count()).Take(8).Select(g => g.Key).ToList();
+            //return restaurantes
+            //    .Where(n => (Categoria)Enum.Parse(typeof(Categoria), n.Attribute("categoria").Value, ignoreCase: true) == Categoria.Pizzaria)
+            //    .GroupBy(n => n.Element("localizacao").Element("bairro").Value)
+            //    .OrderBy(g => g.Count())
+            //    .Take(8)
+            //    .Select(g => g.Key)
+            //    .ToList();
             return (
                 from n in restaurantes
+                let cat = (Categoria)Enum.Parse(typeof(Categoria), n.Attribute("categoria").Value, ignoreCase: true)
+                where cat == Categoria.Pizzaria
                 group n by n.Element("localizacao").Element("bairro").Value into g
                 orderby g.Count()
                 select g.Key
