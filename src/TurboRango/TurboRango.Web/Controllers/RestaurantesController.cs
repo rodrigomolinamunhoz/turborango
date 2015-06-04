@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using TurboRango.Dominio;
 using TurboRango.Web.Models;
 
-namespace TurboRango.Web
+namespace TurboRango.Web.Controllers
 {
     public class RestaurantesController : Controller
     {
