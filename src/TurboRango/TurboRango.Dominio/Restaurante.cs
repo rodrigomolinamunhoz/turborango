@@ -1,6 +1,6 @@
 ﻿namespace TurboRango.Dominio
 {
-    public class Restaurante
+    public class Restaurante : Entidade
     {
         /// <summary>
         /// Capacidade (lotação máxima) do restaurante.
