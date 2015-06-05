@@ -67,7 +67,7 @@ namespace TurboRango.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Restaurante restaurante = db.Restaurantes.Find(id);
+            Restaurante restaurante = db.Restaurantes.Include(x => x.Localizacao).Include(x => x.Contato).FirstOrDefault(x => x.Id == id);
             if (restaurante == null)
             {
                 return HttpNotFound();
