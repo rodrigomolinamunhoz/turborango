@@ -8,6 +8,8 @@ namespace TurboRango.ImportadorXML
     public class Restaurantes
     {
         readonly static string INSERT_SQL = "INSERT INTO [dbo].[Restaurante] ([Capacidade],[Nome],[Categoria],[ContatoId],[LocalizacaoId]) VALUES (@Capacidade, @Nome, @Categoria, @ContatoId, @LocalizacaoId);";
+        readonly static string DELETE_SQL = "DELETE [dbo].[Restaurante] WHERE [Id] = @Id";
+        readonly static string SELECT_FKS = "SELECT [ContatoId], [LocalizacaoId] FROM [dbo].[Restaurante] (nolock) WHERE [Id] = @Id";
 
         string ConnectionString { get; set; }
         Contatos ListaContatos { get; set; }
@@ -25,6 +27,36 @@ namespace TurboRango.ImportadorXML
             int novoContato = ListaContatos.Inserir(restaurante.Contato);
             int novaLocalizacao = ListaLocalizacoes.Inserir(restaurante.Localizacao);
             ExecutarSQLInsert(restaurante, novoContato, novaLocalizacao);
+        }
+
+        internal void Remover(int id)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+
+                DataTable tabela = new DataTable();
+
+                int contatoId, localizacaoId;
+
+                using (var selectFks = new SqlCommand(SELECT_FKS, connection))
+                {
+                    selectFks.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+                    tabela.Load(selectFks.ExecuteReader());
+
+                    contatoId = Convert.ToInt32(tabela.Rows[0]["ContatoId"]);
+                    localizacaoId = Convert.ToInt32(tabela.Rows[0]["LocalizacaoId"]);
+                }
+
+                using (var removerRestaurante = new SqlCommand(DELETE_SQL, connection))
+                {
+                    removerRestaurante.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+                    removerRestaurante.ExecuteNonQuery();
+                }
+
+                ListaContatos.Remover(contatoId);
+                ListaLocalizacoes.Remover(localizacaoId);
+            }
         }
 
         void ExecutarSQLInsert(Restaurante restaurante, int fkNovoContato, int fkNovaLocalizacao)
@@ -50,6 +82,8 @@ namespace TurboRango.ImportadorXML
         class Contatos
         {
             readonly static string INSERT_SQL = "INSERT INTO [dbo].[Contato] ([Site],[Telefone]) VALUES (@Site, @Telefone); SELECT @@IDENTITY";
+            readonly static string DELETE_SQL = "DELETE [dbo].[Contato] WHERE [Id] = @Id";
+
             string ConnectionString { get; set; }
 
             internal Contatos(string connString)
@@ -70,11 +104,25 @@ namespace TurboRango.ImportadorXML
                     }
                 }
             }
+
+            internal void Remover(int id)
+            {
+                using (var connection = new SqlConnection(ConnectionString))
+                {
+                    using (var removerContato = new SqlCommand(DELETE_SQL, connection))
+                    {
+                        removerContato.Parameters.Add("@Id", SqlDbType.NVarChar).Value = id;
+                        connection.Open();
+                        removerContato.ExecuteNonQuery();
+                    }
+                }
+            }
         }
 
         class Localizacoes
         {
             readonly static string INSERT_SQL = "INSERT INTO [dbo].[Localizacao] ([Bairro],[Logradouro],[Latitude],[Longitude]) VALUES (@Bairro, @Logradouro, @Latitude, @Longitude); SELECT @@IDENTITY";
+            readonly static string DELETE_SQL = "DELETE [dbo].[Localizacao] WHERE [Id] = @Id";
             string ConnectionString { get; set; }
 
             internal Localizacoes(string connString)
@@ -94,6 +142,19 @@ namespace TurboRango.ImportadorXML
                         inserirLocalizacao.Parameters.Add("@Longitude", SqlDbType.Float).Value = localizacao.Longitude;
                         connection.Open();
                         return Convert.ToInt32(inserirLocalizacao.ExecuteScalar());
+                    }
+                }
+            }
+
+            internal void Remover(int id)
+            {
+                using (var connection = new SqlConnection(ConnectionString))
+                {
+                    using (var removerLocalizacoes = new SqlCommand(DELETE_SQL, connection))
+                    {
+                        removerLocalizacoes.Parameters.Add("@Id", SqlDbType.NVarChar).Value = id;
+                        connection.Open();
+                        removerLocalizacoes.ExecuteNonQuery();
                     }
                 }
             }
