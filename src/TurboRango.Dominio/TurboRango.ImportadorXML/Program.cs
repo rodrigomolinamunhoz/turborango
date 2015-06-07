@@ -58,10 +58,10 @@ namespace TurboRango.ImportadorXML
 
                 var acessoAoBanco = new CarinhaQueManipulaOBanco(connString);
 
-                acessoAoBanco.Inserir(new Contato {
-                    Site = "www.camigoal.com.br",
-                    Telefone = "55991096010"
-                });
+                //acessoAoBanco.Inserir(new Contato {
+                //    Site = "www.camigoal.com.br",
+                //    Telefone = "55991096010"
+               // });
 
                 IEnumerable<Contato> contatos = acessoAoBanco.GetContatos();
             #endregion
