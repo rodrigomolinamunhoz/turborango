@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using TurboRango.Dominio;
+using TurboRango.Dominio.Utils;
 
 namespace TurboRango.ImportadorXML
 {
@@ -10,6 +12,7 @@ namespace TurboRango.ImportadorXML
         readonly static string INSERT_SQL = "INSERT INTO [dbo].[Restaurante] ([Capacidade],[Nome],[Categoria],[ContatoId],[LocalizacaoId]) VALUES (@Capacidade, @Nome, @Categoria, @ContatoId, @LocalizacaoId);";
         readonly static string DELETE_SQL = "DELETE [dbo].[Restaurante] WHERE [Id] = @Id";
         readonly static string SELECT_FKS = "SELECT [ContatoId], [LocalizacaoId] FROM [dbo].[Restaurante] (nolock) WHERE [Id] = @Id";
+        readonly static string SELECT_JOINS = "SELECT r.*, c.*, l.* FROM [dbo].[Restaurante] r INNER JOIN dbo.[Contato] c on r.ContatoId = c.Id INNER JOIN dbo.[Localizacao] l on r.LocalizacaoId = l.Id";
 
         string ConnectionString { get; set; }
         Contatos ListaContatos { get; set; }
@@ -56,6 +59,42 @@ namespace TurboRango.ImportadorXML
 
                 ListaContatos.Remover(contatoId);
                 ListaLocalizacoes.Remover(localizacaoId);
+            }
+        }
+
+        internal IEnumerable<Restaurante> Todos()
+        {
+            DataTable tabela = new DataTable();
+
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                using (var listarRestaurantes = new SqlCommand(SELECT_JOINS, connection))
+                {
+                    connection.Open();
+                    tabela.Load(listarRestaurantes.ExecuteReader());
+
+                    foreach (DataRow linha in tabela.Rows)
+                    {
+                        yield return new Restaurante
+                        {
+                            Capacidade = Convert.ToInt32(linha["Capacidade"]),
+                            Nome = Convert.ToString(linha["Nome"]),
+                            Categoria = Convert.ToString(linha["Categoria"]).ToEnum<Categoria>(),
+                            Contato = new Contato
+                            {
+                                Site = Convert.ToString(linha["Site"]),
+                                Telefone = Convert.ToString(linha["Telefone"])
+                            },
+                            Localizacao = new Localizacao
+                            {
+                                Bairro = Convert.ToString(linha["Bairro"]),
+                                Logradouro = Convert.ToString(linha["Logradouro"]),
+                                Latitude = Convert.ToDouble(linha["Latitude"]),
+                                Longitude = Convert.ToDouble(linha["Longitude"])
+                            }
+                        };
+                    }
+                }
             }
         }
 

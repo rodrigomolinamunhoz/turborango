@@ -108,6 +108,8 @@ namespace TurboRango.ImportadorXML
                 restaurantes.Inserir(r);
             }
 
+            var todosBD = restaurantes.Todos();
+
             #endregion
         }
     }
