@@ -66,6 +66,14 @@ namespace TurboRango.ImportadorXML
                 IEnumerable<Contato> contatos = acessoAoBanco.GetContatos();
             #endregion
 
+            #region Exercícios ADO.NET
+
+                var stringDeConexao = @"Data Source=.;Initial Catalog=TurboRango_dev; Integrated Security=True;";
+           
+                var restaurantes = new Restaurantes(stringDeConexao);
+
+            #endregion
+
         }
     }
 }
