@@ -84,7 +84,7 @@ namespace TurboRango.ImportadorXML
 
             var restaurantes = new Restaurantes(connString);
 
-            restaurantes.Inserir(new Restaurante
+            var tiririca = new Restaurante
             {
                 Nome = "Tiririca",
                 Capacidade = 50,
@@ -101,7 +101,9 @@ namespace TurboRango.ImportadorXML
                     Latitude = -29.6646122,
                     Longitude = -51.1188255
                 }
-            });
+            };
+
+            restaurantes.Inserir(tiririca);
 
             foreach (var r in todos)
             {
@@ -109,6 +111,20 @@ namespace TurboRango.ImportadorXML
             }
 
             var todosBD = restaurantes.Todos();
+
+            // Atualizar dados do restaurante...
+
+            tiririca.Capacidade = 100;
+            tiririca.Nome = "Novo Tiririca Grill";
+            tiririca.Categoria = Categoria.Churrascaria;
+            tiririca.Contato.Site = "http://www.tiriricagrill.com.br";
+            tiririca.Contato.Telefone = "5544445555";
+            tiririca.Localizacao.Bairro = "Centro";
+            tiririca.Localizacao.Logradouro = "Avenida central";
+            tiririca.Localizacao.Latitude = -29.6646122;
+            tiririca.Localizacao.Longitude = -51.1188255;
+
+            restaurantes.Atualizar(375, tiririca);
 
             #endregion
         }

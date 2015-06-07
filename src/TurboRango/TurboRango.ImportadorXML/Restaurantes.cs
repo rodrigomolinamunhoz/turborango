@@ -13,6 +13,7 @@ namespace TurboRango.ImportadorXML
         readonly static string DELETE_SQL = "DELETE [dbo].[Restaurante] WHERE [Id] = @Id";
         readonly static string SELECT_FKS = "SELECT [ContatoId], [LocalizacaoId] FROM [dbo].[Restaurante] (nolock) WHERE [Id] = @Id";
         readonly static string SELECT_JOINS = "SELECT r.*, c.*, l.* FROM [dbo].[Restaurante] r INNER JOIN dbo.[Contato] c on r.ContatoId = c.Id INNER JOIN dbo.[Localizacao] l on r.LocalizacaoId = l.Id";
+        readonly static string UPDATE_SQL = "UPDATE [dbo].[Restaurante] SET [Capacidade] = @Capacidade, [Nome] = @Nome, [Categoria] = @Categoria WHERE [Id] = @Id";
 
         string ConnectionString { get; set; }
         Contatos ListaContatos { get; set; }
@@ -59,6 +60,39 @@ namespace TurboRango.ImportadorXML
 
                 ListaContatos.Remover(contatoId);
                 ListaLocalizacoes.Remover(localizacaoId);
+            }
+        }
+
+        internal void Atualizar(int id, Restaurante restaurante)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+
+                DataTable tabela = new DataTable();
+
+                int contatoId, localizacaoId;
+
+                using (var selectFks = new SqlCommand(SELECT_FKS, connection))
+                {
+                    selectFks.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+                    tabela.Load(selectFks.ExecuteReader());
+
+                    contatoId = Convert.ToInt32(tabela.Rows[0]["ContatoId"]);
+                    localizacaoId = Convert.ToInt32(tabela.Rows[0]["LocalizacaoId"]);
+                }
+
+                ListaContatos.Atualizar(contatoId, restaurante.Contato);
+                ListaLocalizacoes.Atualizar(localizacaoId, restaurante.Localizacao);
+
+                using (var atualizarRestaurante = new SqlCommand(UPDATE_SQL, connection))
+                {
+                    atualizarRestaurante.Parameters.Add("@Capacidade", SqlDbType.Int).Value = restaurante.Capacidade;
+                    atualizarRestaurante.Parameters.Add("@Nome", SqlDbType.NVarChar).Value = restaurante.Nome;
+                    atualizarRestaurante.Parameters.Add("@Categoria", SqlDbType.NVarChar).Value = restaurante.Categoria.ToString();
+                    atualizarRestaurante.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+                    atualizarRestaurante.ExecuteNonQuery();
+                }
             }
         }
 
@@ -122,6 +156,7 @@ namespace TurboRango.ImportadorXML
         {
             readonly static string INSERT_SQL = "INSERT INTO [dbo].[Contato] ([Site],[Telefone]) VALUES (@Site, @Telefone); SELECT @@IDENTITY";
             readonly static string DELETE_SQL = "DELETE [dbo].[Contato] WHERE [Id] = @Id";
+            readonly static string UPDATE_SQL = "UPDATE [dbo].[Contato] SET [Site] = @Site, [Telefone] = @Telefone WHERE [Id] = @Id";
 
             string ConnectionString { get; set; }
 
@@ -156,12 +191,28 @@ namespace TurboRango.ImportadorXML
                     }
                 }
             }
+
+            internal void Atualizar(int id, Contato contato)
+            {
+                using (var connection = new SqlConnection(ConnectionString))
+                {
+                    using (var atualizarContato = new SqlCommand(UPDATE_SQL, connection))
+                    {
+                        atualizarContato.Parameters.Add("@Site", SqlDbType.NVarChar).Value = contato.Site;
+                        atualizarContato.Parameters.Add("@Telefone", SqlDbType.NVarChar).Value = contato.Telefone;
+                        atualizarContato.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+                        connection.Open();
+                        atualizarContato.ExecuteNonQuery();
+                    }
+                }
+            }
         }
 
         class Localizacoes
         {
             readonly static string INSERT_SQL = "INSERT INTO [dbo].[Localizacao] ([Bairro],[Logradouro],[Latitude],[Longitude]) VALUES (@Bairro, @Logradouro, @Latitude, @Longitude); SELECT @@IDENTITY";
             readonly static string DELETE_SQL = "DELETE [dbo].[Localizacao] WHERE [Id] = @Id";
+            readonly static string UPDATE_SQL = "UPDATE [dbo].[Localizacao] SET [Bairro] = @Bairro, [Logradouro] = @Logradouro, [Latitude] = @Latitude, [Longitude] = @Longitude WHERE [Id] = @Id";
             string ConnectionString { get; set; }
 
             internal Localizacoes(string connString)
@@ -194,6 +245,23 @@ namespace TurboRango.ImportadorXML
                         removerLocalizacoes.Parameters.Add("@Id", SqlDbType.NVarChar).Value = id;
                         connection.Open();
                         removerLocalizacoes.ExecuteNonQuery();
+                    }
+                }
+            }
+
+            internal void Atualizar(int id, Localizacao localizacao)
+            {
+                using (var connection = new SqlConnection(ConnectionString))
+                {
+                    using (var atualizarContato = new SqlCommand(UPDATE_SQL, connection))
+                    {
+                        atualizarContato.Parameters.Add("@Bairro", SqlDbType.NVarChar).Value = localizacao.Bairro;
+                        atualizarContato.Parameters.Add("@Logradouro", SqlDbType.NVarChar).Value = localizacao.Logradouro;
+                        atualizarContato.Parameters.Add("@Latitude", SqlDbType.Float).Value = localizacao.Latitude;
+                        atualizarContato.Parameters.Add("@Longitude", SqlDbType.Float).Value = localizacao.Longitude;
+                        atualizarContato.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+                        connection.Open();
+                        atualizarContato.ExecuteNonQuery();
                     }
                 }
             }
