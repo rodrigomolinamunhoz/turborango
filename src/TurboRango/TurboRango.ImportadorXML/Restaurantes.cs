@@ -11,7 +11,7 @@ namespace TurboRango.ImportadorXML
     {
         readonly static string INSERT_SQL = "INSERT INTO [dbo].[Restaurante] ([Capacidade],[Nome],[Categoria],[ContatoId],[LocalizacaoId]) VALUES (@Capacidade, @Nome, @Categoria, @ContatoId, @LocalizacaoId);";
         readonly static string DELETE_SQL = "DELETE [dbo].[Restaurante] WHERE [Id] = @Id";
-        readonly static string SELECT_FKS = "SELECT [ContatoId], [LocalizacaoId] FROM [dbo].[Restaurante] (nolock) WHERE [Id] = @Id";
+        readonly static string SELECT_FKS = "SELECT [ContatoId], [LocalizacaoId] FROM [dbo].[Restaurante] WITH (nolock) WHERE [Id] = @Id";
         readonly static string SELECT_JOINS = "SELECT r.*, c.*, l.* FROM [dbo].[Restaurante] r INNER JOIN dbo.[Contato] c on r.ContatoId = c.Id INNER JOIN dbo.[Localizacao] l on r.LocalizacaoId = l.Id";
         readonly static string UPDATE_SQL = "UPDATE [dbo].[Restaurante] SET [Capacidade] = @Capacidade, [Nome] = @Nome, [Categoria] = @Categoria WHERE [Id] = @Id";
 
@@ -52,14 +52,17 @@ namespace TurboRango.ImportadorXML
                     localizacaoId = Convert.ToInt32(tabela.Rows[0]["LocalizacaoId"]);
                 }
 
-                using (var removerRestaurante = new SqlCommand(DELETE_SQL, connection))
+                using (var transaction = connection.BeginTransaction())
                 {
-                    removerRestaurante.Parameters.Add("@Id", SqlDbType.Int).Value = id;
-                    removerRestaurante.ExecuteNonQuery();
-                }
+                    using (var removerRestaurante = new SqlCommand(DELETE_SQL, connection))
+                    {
+                        removerRestaurante.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+                        removerRestaurante.ExecuteNonQuery();
+                    }
 
-                ListaContatos.Remover(contatoId);
-                ListaLocalizacoes.Remover(localizacaoId);
+                    ListaContatos.Remover(contatoId);
+                    ListaLocalizacoes.Remover(localizacaoId);
+                }
             }
         }
 

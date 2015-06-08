@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using TurboRango.Dominio;
+using System.Linq;
 
 namespace TurboRango.ImportadorXML
 {
@@ -111,6 +112,10 @@ namespace TurboRango.ImportadorXML
             }
 
             var todosBD = restaurantes.Todos();
+            var menorQue50 = todosBD.Where(x => x.Capacidade < 50);
+            var menorQue50Linq = from r in todosBD
+                                 where r.Capacidade < 50
+                                 select r;
 
             // Atualizar dados do restaurante...
 
