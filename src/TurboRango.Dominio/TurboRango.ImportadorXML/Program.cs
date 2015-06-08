@@ -94,6 +94,16 @@ namespace TurboRango.ImportadorXML
                     }
                 });
 
+
+                const string nomeArquivoXML = "restaurantes.xml";
+
+                var restaurantesEmXML = new RestaurantesXML(nomeArquivoXML);
+
+                foreach (var atual in restaurantesEmXML.TodosRestaurantes()) {
+                    restaurantes.Inserir(atual);
+
+                }
+
             #endregion
 
         }

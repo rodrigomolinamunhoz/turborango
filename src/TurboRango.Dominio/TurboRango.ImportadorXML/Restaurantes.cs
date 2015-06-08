@@ -49,8 +49,8 @@ namespace TurboRango.ImportadorXML
                 using (var inserirContato = new SqlCommand("INSERT INTO [dbo].[Contato] ([Site],[Telefone])"
                      + "VALUES (@Site, @Telefone); SELECT @@IDENTITY", connection))
                 {
-                    inserirContato.Parameters.Add("@Site", SqlDbType.NVarChar).Value = contato.Site;
-                    inserirContato.Parameters.Add("@Telefone", SqlDbType.NVarChar).Value = contato.Telefone;
+                    inserirContato.Parameters.Add("@Site", SqlDbType.NVarChar).Value = contato.Site == null ? DBNull.Value : (Object)contato.Site;
+                    inserirContato.Parameters.Add("@Telefone", SqlDbType.NVarChar).Value = contato.Telefone == null ? DBNull.Value : (Object)contato.Telefone;
 
                     connection.Open();
                     idContato = Convert.ToInt32(inserirContato.ExecuteScalar());
