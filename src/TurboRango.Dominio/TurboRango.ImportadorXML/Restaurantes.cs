@@ -83,5 +83,20 @@ namespace TurboRango.ImportadorXML
                 return idLocalizacao;
             }           
         }
+
+        public void Remover(int id) {
+            using (var connection = new SqlConnection(this.connectionString))
+            {
+                using (var deletarRestaurante = new SqlCommand("DELETE FROM [dbo].[Restaurante] WHERE [Id]=@Id", connection))
+                {
+                    deletarRestaurante.Parameters.AddWithValue("@Id", id);
+                    connection.Open();
+                    id = Convert.ToInt32(deletarRestaurante.ExecuteScalar());
+
+                    Debug.WriteLine("Restaurante deletado! ID no banco: {0}", id);
+                }
+            }           
+        
+        }
     }
 }

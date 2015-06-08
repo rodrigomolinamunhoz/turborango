@@ -103,6 +103,7 @@ namespace TurboRango.ImportadorXML
                     restaurantes.Inserir(atual);
 
                 }
+                restaurantes.Remover(17);
 
             #endregion
 
