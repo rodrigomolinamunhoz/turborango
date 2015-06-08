@@ -50,6 +50,9 @@ namespace TurboRango.ImportadorXML
                 var capacidadeMedia = restaurantesXML.CapacidadeMedia();
                 var capacidadeMaxima = restaurantesXML.CapacidadeMax();
                 var porCategoria = restaurantesXML.AgruparPorCategoria();
+
+                var todos = restaurantesXML.TodosRestaurantes();  
+                
                 #endregion
 
             #region ADD.NET
