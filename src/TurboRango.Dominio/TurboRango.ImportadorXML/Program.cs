@@ -105,7 +105,26 @@ namespace TurboRango.ImportadorXML
                 }
                 restaurantes.Remover(17);
 
-            #endregion
+                restaurantes.Atualizar(91, new Restaurante
+                {
+                    Nome = "TiriricaDois",
+                    Capacidade = 60,
+                    Categoria = Categoria.FastFood,
+                    Contato = new Contato
+                    {
+                        Site = "http://github.com/tiririca2",
+                        Telefone = "5555 5555"
+                    },
+                    Localizacao = new Localizacao
+                    {
+                        Bairro = "Vila Nova2",
+                        Logradouro = "ERS 239, 2755",
+                        Latitude = -29.6646122,
+                        Longitude = -51.1188254
+                    }
+                });
+
+              #endregion
 
         }
     }
