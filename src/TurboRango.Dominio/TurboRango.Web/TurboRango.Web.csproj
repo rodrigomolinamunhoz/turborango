@@ -159,7 +159,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ContatoesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LocalizacaosController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RestaurantesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -242,6 +244,16 @@
     <Content Include="Views\Restaurantes\Details.cshtml" />
     <Content Include="Views\Restaurantes\Edit.cshtml" />
     <Content Include="Views\Restaurantes\Index.cshtml" />
+    <Content Include="Views\Contatoes\Create.cshtml" />
+    <Content Include="Views\Contatoes\Delete.cshtml" />
+    <Content Include="Views\Contatoes\Details.cshtml" />
+    <Content Include="Views\Contatoes\Edit.cshtml" />
+    <Content Include="Views\Contatoes\Index.cshtml" />
+    <Content Include="Views\Localizacaos\Create.cshtml" />
+    <Content Include="Views\Localizacaos\Delete.cshtml" />
+    <Content Include="Views\Localizacaos\Details.cshtml" />
+    <Content Include="Views\Localizacaos\Edit.cshtml" />
+    <Content Include="Views\Localizacaos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
