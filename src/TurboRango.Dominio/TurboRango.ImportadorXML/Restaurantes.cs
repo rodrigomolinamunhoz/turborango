@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TurboRango.Dominio;
+using TurboRango.Dominio.Utils;
 
 namespace TurboRango.ImportadorXML
 {
@@ -240,7 +241,7 @@ namespace TurboRango.ImportadorXML
                     }
                 }
             }
-            return null;
+            return restaurantes;
         }
     }
 }

@@ -50,29 +50,31 @@ namespace TurboRango.ImportadorXML
                 var capacidadeMedia = restaurantesXML.CapacidadeMedia();
                 var capacidadeMaxima = restaurantesXML.CapacidadeMax();
                 var porCategoria = restaurantesXML.AgruparPorCategoria();
+                var nomesAscendente = restaurantesXML.OrdenarPorNomeAsc();
 
                 var todos = restaurantesXML.TodosRestaurantes();  
                 
                 #endregion
 
             #region ADD.NET
-                var connString = @"Data Source=.;Initial Catalog=TurboRango_dev; Integrated Security=True;";
+                //var connString = @"Data Source=.;Initial Catalog=TurboRango_dev; Integrated Security=True;";
                 // Usuário feevale = var connString = @"Data Source=.;Initial Catalog=TurboRango_dev; Integrated Segurity=True;UID=sa;PWD=feevale";
 
-                var acessoAoBanco = new CarinhaQueManipulaOBanco(connString);
+                //var acessoAoBanco = new CarinhaQueManipulaOBanco(connString);
 
                 //acessoAoBanco.Inserir(new Contato {
                 //    Site = "www.camigoal.com.br",
                 //    Telefone = "55991096010"
-               // });
+                //});
 
-                IEnumerable<Contato> contatos = acessoAoBanco.GetContatos();
+                //IEnumerable<Contato> contatos = acessoAoBanco.GetContatos();
             #endregion
 
-            #region Exercícios ADO.NET
+                #region Exercícios ADO.NET
 
                 var stringDeConexao = @"Data Source=.;Initial Catalog=TurboRango_dev; Integrated Security=True;";
            
+
                 var restaurantes = new Restaurantes(stringDeConexao);
 
                 restaurantes.Inserir(new Restaurante
