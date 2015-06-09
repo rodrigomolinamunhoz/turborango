@@ -85,6 +85,8 @@ namespace TurboRango.ImportadorXML
         }
 
         public void Remover(int id) {
+            int idLocalizacao = ObterIdLocalizacao(id);
+            int idContato = ObterIdContato(id);
             using (var connection = new SqlConnection(this.connectionString))
             {
                 using (var deletarRestaurante = new SqlCommand("DELETE FROM [dbo].[Restaurante] WHERE [Id]=@Id", connection))
@@ -92,11 +94,51 @@ namespace TurboRango.ImportadorXML
                     deletarRestaurante.Parameters.AddWithValue("@Id", id);
                     connection.Open();
                     id = Convert.ToInt32(deletarRestaurante.ExecuteScalar());
+                }
 
-                    Debug.WriteLine("Restaurante deletado! ID no banco: {0}", id);
+                using (var deletarLocalizacao = new SqlCommand("DELETE FROM [dbo].[Localizacao] WHERE [Id]=@Id", connection))
+                {
+                    deletarLocalizacao.Parameters.AddWithValue("@Id", idLocalizacao);
+                    idLocalizacao = Convert.ToInt32(deletarLocalizacao.ExecuteScalar());
+                }
+
+                using (var deletarContato = new SqlCommand("DELETE FROM [dbo].[Contato] WHERE [Id]=@Id", connection))
+                {
+                    deletarContato.Parameters.AddWithValue("@Id", idContato);
+                    idLocalizacao = Convert.ToInt32(deletarContato.ExecuteScalar());
                 }
             }           
         
         }
+
+        private int ObterIdContato(int idRestaurante) {
+            int resultado;
+            using (var connection = new SqlConnection(this.connectionString))
+            {
+                using (var obterContato = new SqlCommand("SELECT [ContatoId] FROM [dbo].[Restaurante] WHERE [Id]=@Id; SELECT @@IDENTITY", connection))
+                {
+                    obterContato.Parameters.AddWithValue("@Id", idRestaurante);
+                    connection.Open();
+                    resultado = Convert.ToInt32(obterContato.ExecuteScalar());
+                }
+                return resultado;
+            }
+        }
+
+        private int ObterIdLocalizacao(int idRestaurante)
+        {
+            int resultado;
+            using (var connection = new SqlConnection(this.connectionString))
+            {
+                using (var obterLocalizacao = new SqlCommand("SELECT [LocalizacaoId] FROM [dbo].[Restaurante] WHERE [Id]=@Id; SELECT @@IDENTITY", connection))
+                {
+                    obterLocalizacao.Parameters.AddWithValue("@Id", idRestaurante);
+                    connection.Open();
+                    resultado = Convert.ToInt32(obterLocalizacao.ExecuteScalar());
+                }
+                return resultado;
+            }
+        }
+
     }
 }
