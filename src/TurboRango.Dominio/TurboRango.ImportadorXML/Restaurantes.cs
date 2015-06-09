@@ -202,5 +202,45 @@ namespace TurboRango.ImportadorXML
             }
 
         }
+
+        public IEnumerable<Restaurante> Todos()
+        {
+            var restaurantes = new List<Restaurante>();
+            using (var connection = new SqlConnection(this.connectionString))
+            { 
+                using (var selecionaRestaurantes = new SqlCommand("SELECT r.[Id],[Capacidade],[Nome],[Categoria],c.[Site]"
+                    + ",c.[Telefone],l.[Bairro],l.[Latitude],l.[Logradouro],l.[Longitude] FROM [dbo].[Restaurante] AS r"
+                    + " INNER JOIN [dbo].[Contato] AS c ON c.Id = r.ContatoId INNER JOIN [dbo].[Localizacao] AS l ON"
+                    + " l.Id = r.LocalizacaoId", connection))
+                {
+                    connection.Open();
+
+                    var reader = selecionaRestaurantes.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        restaurantes.Add(new Restaurante
+                        {
+                            Capacidade = reader.GetInt32(0),
+                            Nome = reader.GetString(1),
+                            Contato = new Contato
+                            {
+                                Site = reader.IsDBNull(2) ? null : reader.GetString(2),
+                                Telefone = reader.IsDBNull(3) ? null : reader.GetString(3)
+                            },
+                            Localizacao = new Localizacao
+                            {
+                                Bairro = reader.GetString(4),
+                                Latitude = reader.GetDouble(5),
+                                Logradouro = reader.GetString(6),
+                                Longitude = reader.GetDouble(7),
+                            },
+                            Categoria = reader.GetString(8).ToEnum<Categoria>(),
+                        });
+                    }
+                }
+            }
+            return null;
+        }
     }
 }

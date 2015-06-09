@@ -124,6 +124,8 @@ namespace TurboRango.ImportadorXML
                     }
                 });
 
+                restaurantes.Todos();
+
               #endregion
 
         }
