@@ -49,7 +49,7 @@ namespace TurboRango.Web.Migrations
             },
             new Restaurante
             {
-                Nome = "GARFï¿½O RESTAURANTE E PIZZARIA",
+                Nome = "GARFÃO RESTAURANTE E PIZZARIA",
                 Capacidade = 100,
                 Categoria = Categoria.Comum,
                 Contato = new Contato
@@ -85,7 +85,7 @@ namespace TurboRango.Web.Migrations
             },
             new Restaurante
             {
-                Nome = "RESTAURANTE HABITUï¿½",
+                Nome = "RESTAURANTE HABITUÉ",
                 Capacidade = 90,
                 Categoria = Categoria.Comum,
                 Contato = new Contato
@@ -114,7 +114,7 @@ namespace TurboRango.Web.Migrations
                 Localizacao = new Localizacao
                 {
                     Bairro = "Rio Branco",
-                    Logradouro = "Rua: Josï¿½ do Patrocï¿½nio, 880",
+                    Logradouro = "Rua: José do Patrocínio, 880",
                     Latitude = -29.68339,
                     Longitude = -51.135376
                 }
@@ -138,7 +138,7 @@ namespace TurboRango.Web.Migrations
                 }
             }, new Restaurante
                 {
-                    Nome = "OLï¿½ ARMAZï¿½M MEXICANO",
+                    Nome = "OLÉ ARMAZÉM MEXICANO",
                     Capacidade = 30,
                     Categoria = Categoria.CozinhaMexicana,
                     Contato = new Contato
