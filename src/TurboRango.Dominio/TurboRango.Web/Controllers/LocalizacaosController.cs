@@ -11,6 +11,7 @@ using TurboRango.Web.Models;
 
 namespace TurboRango.Web.Controllers
 {
+    [Authorize]
     public class LocalizacaosController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
