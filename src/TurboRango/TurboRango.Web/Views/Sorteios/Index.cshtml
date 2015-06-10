@@ -15,11 +15,29 @@
     var qtdRestaurantes = @ViewBag.QtdRestaurantes;
     //alert(qtdRestaurantes);
 
-    $.get('@Url.Action("Restaurantes", "Restaurantes")')
-        .done(function(response) {
-            response.restaurantes.forEach(function(r) {
-                console.log(r.Localizacao);
-            });
-        });
+    navigator.geolocation.getCurrentPosition(
+        function success(resultado) {
+
+            var posicaoAtual = resultado.coords;
+
+            $.get('@Url.Action("Restaurantes", "Restaurantes")')
+                .done(function(response) {
+                    response.restaurantes.forEach(function(r) {
+
+                        if (r.Localizacao !== null) {
+                            var distancia = haversine(posicaoAtual, { latitude: r.Localizacao.Latitude, longitude: r.Localizacao.Longitude }, {unit: 'km'});
+                            console.log(r.Nome, distancia);
+                        }
+
+                    });
+                });
+        },
+        function error(err) {
+            console.error(err);
+        },
+        { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+    );
+
+
 </script>
 }
