@@ -18,7 +18,10 @@ namespace TurboRango.Web.Controllers
         // GET: Restaurantes
         public ActionResult Index()
         {
-            return View(db.Restaurantes.ToList());
+            var restaurante = db.Restaurantes
+                .Include(x => x.Contato)
+                .Include(x => x.Localizacao);
+            return View(restaurante.ToList());
         }
 
         // GET: Restaurantes/Details/5
