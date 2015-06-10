@@ -22,14 +22,17 @@
 
             $.get('@Url.Action("Restaurantes", "Restaurantes")')
                 .done(function(response) {
-                    response.restaurantes.forEach(function(r) {
 
-                        if (r.Localizacao !== null) {
-                            var distancia = haversine(posicaoAtual, { latitude: r.Localizacao.Latitude, longitude: r.Localizacao.Longitude }, {unit: 'km'});
-                            console.log(r.Nome, distancia);
+                    response.restaurantes.sort(function(r1, r2) {
+
+                        if (r1.Localizacao !== null && r2.Localizacao !== null) {
+                            var distancia1 = haversine(posicaoAtual, { latitude: r1.Localizacao.Latitude, longitude: r1.Localizacao.Longitude }, {unit: 'km'});
+                            var distancia2 = haversine(posicaoAtual, { latitude: r2.Localizacao.Latitude, longitude: r2.Localizacao.Longitude }, {unit: 'km'});
+                            return distancia1 > distancia2;
                         }
-
                     });
+
+                    console.log(response.restaurantes);
                 });
         },
         function error(err) {
