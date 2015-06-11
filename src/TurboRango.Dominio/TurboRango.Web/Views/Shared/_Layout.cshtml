@@ -24,8 +24,6 @@
                     @if (User.Identity.IsAuthenticated)
                      {
                         <li>@Html.ActionLink("Restaurantes", "Index", "Restaurantes")</li>
-                        <li>@Html.ActionLink("Contatos", "Index", "Contatoes")</li>
-                        <li>@Html.ActionLink("Localização", "Index", "Localizacaos")</li>
                      }
                 </ul>
                 @Html.Partial("_LoginPartial")
