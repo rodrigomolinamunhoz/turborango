@@ -237,6 +237,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Sorteios\Index.cshtml" />
     <Content Include="Views\Restaurantes\Create.cshtml" />
     <Content Include="Views\Restaurantes\Delete.cshtml" />
     <Content Include="Views\Restaurantes\Details.cshtml" />
