@@ -81,7 +81,7 @@ namespace TurboRango.ImportadorXML
                 {
                     Nome = "Tiririca",
                     Capacidade = 50,
-                    Categoria = Categoria.FastFood,
+                    Categoria = Categoria.Fastfood,
                     Contato = new Contato
                     {
                         Site = "http://github.com/tiririca",
@@ -111,7 +111,7 @@ namespace TurboRango.ImportadorXML
                 {
                     Nome = "TiriricaDois",
                     Capacidade = 60,
-                    Categoria = Categoria.FastFood,
+                    Categoria = Categoria.Fastfood,
                     Contato = new Contato
                     {
                         Site = "http://github.com/tiririca2",

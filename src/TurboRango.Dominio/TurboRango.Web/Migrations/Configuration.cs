@@ -33,7 +33,7 @@ namespace TurboRango.Web.Migrations
             {
                 Nome = "Tiririca",
                 Capacidade = 50,
-                Categoria = Categoria.FastFood,
+                Categoria = Categoria.Fastfood,
                 Contato = new Contato
                 {
                     Site = "http://github.com/tiririca",
@@ -105,7 +105,7 @@ namespace TurboRango.Web.Migrations
             {
                 Nome = "PICA-PAU LANCHES",
                 Capacidade = 30,
-                Categoria = Categoria.FastFood,
+                Categoria = Categoria.Fastfood,
                 Contato = new Contato
                 {
                     Site = "www.picapaulanches.com",
