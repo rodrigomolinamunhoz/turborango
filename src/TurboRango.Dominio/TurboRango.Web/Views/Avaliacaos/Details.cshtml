@@ -1,50 +1,51 @@
 ﻿@model TurboRango.Dominio.Avaliacao
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalhes";
 }
+<div class="panel panel-default">
+    <h2>Detalhes</h2>
 
-<h2>Details</h2>
+    <div>
+        <h4>Avaliacao</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Nota)
+            </dt>
 
-<div>
-    <h4>Avaliacao</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nota)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Nota)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Nota)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Media)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Media)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Media)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Media)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Data)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Data)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Data)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Data)
-        </dd>
+            @*<dt>
+                    @html.displaynamefor(model => model.idrestaurante)
+                </dt>
 
-        @*<dt>
-            @html.displaynamefor(model => model.idrestaurante)
-        </dt>
+                <dd>
+                    @html.displayfor(model => model.idrestaurante)
+                </dd>*@
 
-        <dd>
-            @html.displayfor(model => model.idrestaurante)
-        </dd>*@
-
-    </dl>
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Editar", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Listar", "Index")
+    </p>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
