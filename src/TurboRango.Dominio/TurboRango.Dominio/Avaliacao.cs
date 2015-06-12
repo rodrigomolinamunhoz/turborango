@@ -8,9 +8,8 @@ namespace TurboRango.Dominio
 {
     public class Avaliacao : Entidade
     {
-        public string Login { get; set; }
-        public decimal Nota { get; set; }
-        public decimal Media { get; set; }
+        public double nota { get; set; }
+        public double media { get; set; }
         public DateTime Data { get; set; }
         public virtual Restaurante Restaurante { get; set; }
     }
