@@ -178,6 +178,10 @@
     <Compile Include="Migrations\201506082001430_CriarEntidades.Designer.cs">
       <DependentUpon>201506082001430_CriarEntidades.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201506120300320_Avaliacaos.cs" />
+    <Compile Include="Migrations\201506120300320_Avaliacaos.Designer.cs">
+      <DependentUpon>201506120300320_Avaliacaos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -254,6 +258,11 @@
     <Content Include="Views\Shared\DisplayTemplates\Localizacao.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Contato.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Localizacao.cshtml" />
+    <Content Include="Views\Avaliacaos\Create.cshtml" />
+    <Content Include="Views\Avaliacaos\Delete.cshtml" />
+    <Content Include="Views\Avaliacaos\Details.cshtml" />
+    <Content Include="Views\Avaliacaos\Edit.cshtml" />
+    <Content Include="Views\Avaliacaos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -279,6 +288,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201506082001430_CriarEntidades.resx">
       <DependentUpon>201506082001430_CriarEntidades.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506120300320_Avaliacaos.resx">
+      <DependentUpon>201506120300320_Avaliacaos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
