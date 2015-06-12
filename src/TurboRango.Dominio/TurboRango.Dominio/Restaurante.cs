@@ -13,5 +13,6 @@ namespace TurboRango.Dominio
         public Categoria Categoria { get; set; }
         public virtual Contato Contato { get; set; }
         public virtual Localizacao Localizacao { get; set; }
+        public ICollection<Avaliacao> Avaliacao { get; set; }
     }
 }
