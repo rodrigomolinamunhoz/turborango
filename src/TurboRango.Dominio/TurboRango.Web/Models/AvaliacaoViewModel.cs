@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace TurboRango.Dominio
+namespace TurboRango.Web.Models
 {
-    public class Avaliacao : Entidade
+    public class AvaliacaoViewModel
     {
         public decimal Nota { get; set; }
         public decimal Media { get; set; }
         public DateTime Data { get; set; }
-        public virtual Restaurante Restaurante { get; set; }
+        public int RestauranteId { get; set; }
     }
 }

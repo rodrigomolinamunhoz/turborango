@@ -39,6 +39,7 @@ namespace TurboRango.Web.Controllers
         // GET: Avaliacaos/Create
         public ActionResult Create()
         {
+            ViewBag.Restaurantes = db.Restaurantes.Select(r => new { Id = r.Id.ToString(), Nome = r.Nome }).ToList();
             return View();
         }
 
@@ -47,11 +48,21 @@ namespace TurboRango.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nota,Media,Data,IdRestaurante")] Avaliacao avaliacao)
+        public ActionResult Create([Bind(Include = "Nota, Media, Data, RestauranteId")] AvaliacaoViewModel avaliacao)
         {
             if (ModelState.IsValid)
             {
-                db.Avaliacaos.Add(avaliacao);
+                var restaurante = db.Restaurantes.Find(avaliacao.RestauranteId);
+
+                var novaAvaliacao = new Avaliacao
+                {
+                    Data = avaliacao.Data,
+                    Media = avaliacao.Media,
+                    Restaurante = restaurante,
+                    Nota = avaliacao.Nota
+                };
+
+                db.Avaliacaos.Add(novaAvaliacao);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -79,11 +90,12 @@ namespace TurboRango.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nota,Media,Data,IdRestaurante")] Avaliacao avaliacao)
+        public ActionResult Edit([Bind(Include = "Id,Nota,Media,Data,Restaurante")] Avaliacao avaliacao)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(avaliacao).State = EntityState.Modified;
+                db.Entry(avaliacao.Restaurante).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -114,6 +126,20 @@ namespace TurboRango.Web.Controllers
             db.Avaliacaos.Remove(avaliacao);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        [AllowAnonymous]
+        public JsonResult Avaliacao()
+        {
+            var todos = db.Avaliacaos
+                .Include(_ => _.Restaurante)
+                .ToList();
+
+            return Json(new
+            {
+                avaliacaos = todos,
+                camigoal = DateTime.Now
+            }, JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)

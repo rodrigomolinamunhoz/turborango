@@ -24,6 +24,7 @@
                     @if (User.Identity.IsAuthenticated)
                      {
                         <li>@Html.ActionLink("Restaurantes", "Index", "Restaurantes")</li>
+                        <li>@Html.ActionLink("Avaliação", "Index", "Avaliacaos")</li>
                      }
                     <li>@Html.ActionLink("Sorteios", "Index", "Sorteios")</li>
                 </ul>

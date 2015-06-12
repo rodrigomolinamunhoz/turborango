@@ -182,8 +182,13 @@
     <Compile Include="Migrations\201506120300320_Avaliacaos.Designer.cs">
       <DependentUpon>201506120300320_Avaliacaos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201506120355220_Avaliacao_Fk_Restaurante.cs" />
+    <Compile Include="Migrations\201506120355220_Avaliacao_Fk_Restaurante.Designer.cs">
+      <DependentUpon>201506120355220_Avaliacao_Fk_Restaurante.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AvaliacaoViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -291,6 +296,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201506120300320_Avaliacaos.resx">
       <DependentUpon>201506120300320_Avaliacaos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506120355220_Avaliacao_Fk_Restaurante.resx">
+      <DependentUpon>201506120355220_Avaliacao_Fk_Restaurante.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
