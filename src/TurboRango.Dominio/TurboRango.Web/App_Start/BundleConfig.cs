@@ -20,6 +20,9 @@ namespace TurboRango.Web
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/min").Include(
+                        "~/Scripts/jquery-1.11.3.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/haversine").Include(
                         "~/Scripts/haversine.js"));
 
@@ -38,11 +41,14 @@ namespace TurboRango.Web
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/respond.js",
+                      "~/Scripts/bootstrap-datepicker.js",
+                      "~/Scripts/bootstrap-datepicker.pt-BR.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/datepicker.css"));
 
 #if DEBUG
             BundleTable.EnableOptimizations = false;

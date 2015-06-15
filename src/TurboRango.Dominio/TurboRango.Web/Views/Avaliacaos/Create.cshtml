@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Cadastrar";
 }
+@Scripts.Render("~/bundles/min")
 <div class="panel panel-default">
     <h2>Cadastrar Avaliação</h2>
 
@@ -23,7 +24,7 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Media, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Media, htmlAttributes: new { @class = "control-label col-md-2", @type ="date" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Media, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Media, "", new { @class = "text-danger" })
@@ -33,8 +34,8 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Data, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Data, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(model => model.Data, new { @class = "form-control datepicker" })
+                    @Html.ValidationMessageFor(model => model.Data)
                 </div>
             </div>
 
@@ -58,3 +59,11 @@
         @Html.ActionLink("Listar", "Index")
     </div>
 </div>
+<script type="text/javascript">
+    $(function () { // will trigger when the document is ready
+        $('.datepicker').datepicker({
+            format: "dd/mm/yyyy",
+            language: "pt-BR"
+        }); //Initialise any date pickers
+    });
+</script>
