@@ -18,15 +18,15 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Nota, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Nota, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.DropDownListFor(model => model.Nota, new SelectList(Enumerable.Range(0, 6)), htmlAttributes: new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Nota, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Media, htmlAttributes: new { @class = "control-label col-md-2", @type ="date" })
+                @Html.LabelFor(model => model.Media, htmlAttributes: new { @class = "control-label col-md-2"})
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Media, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.DropDownListFor(model => model.Media, new SelectList(Enumerable.Range(0, 6)), htmlAttributes: new { @class = "form-control" } )
                     @Html.ValidationMessageFor(model => model.Media, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -34,7 +34,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Data, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.Data, new { @class = "form-control datepicker" })
+                    @Html.TextBoxFor(model => model.Data, new { @class = "form-control datepicker", required = "required" })
                     @Html.ValidationMessageFor(model => model.Data)
                 </div>
             </div>
@@ -60,7 +60,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(function () { // will trigger when the document is ready
+    $(document).ready(function () {
         $('.datepicker').datepicker({
             format: "dd/mm/yyyy",
             language: "pt-BR"
