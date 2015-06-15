@@ -30,9 +30,9 @@
                 <ul class="nav navbar-nav">
                     @if (User.Identity.IsAuthenticated)
                      {
-                        <li>@Html.ActionLink("Restaurantes", "Index", "Restaurantes")</li>
                         <li>@Html.ActionLink("Avaliação", "Index", "Avaliacaos")</li>
                      }
+                    <li>@Html.ActionLink("Restaurantes", "Index", "Restaurantes")</li>
                     <li>@Html.ActionLink("Sorteios", "Index", "Sorteios")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")

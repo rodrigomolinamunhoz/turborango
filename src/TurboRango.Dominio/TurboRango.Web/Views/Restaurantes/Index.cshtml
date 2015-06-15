@@ -10,7 +10,10 @@
     <h2>Lista de Restaurantes</h2>
 
     <p>
-        @Html.ActionLink("Adicionar Restaurante", "Create")
+        @if (User.Identity.IsAuthenticated)
+        {
+            @Html.ActionLink("Adicionar Restaurante", "Create")
+        }    
     </p>
     <table class="table">
         <tr>
@@ -35,12 +38,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Localizacao.Bairro)
             </th>
+            @if (User.Identity.IsAuthenticated)
+            {
             <th>
                 @Html.DisplayNameFor(model => model.Localizacao.Latitude)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Localizacao.Longitude)
             </th>
+            }
             <th></th>
         </tr>
 
@@ -71,16 +77,22 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Localizacao.Bairro)
                 </td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
                 <td>
                     @Html.DisplayFor(modelItem => item.Localizacao.Latitude)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Localizacao.Longitude)
+                    @Html.DisplayFor(modelItem => item.Localizacao.Longitude)   
                 </td>
+                    }
                 <td>
-                    @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Detalhes", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Deletar", "Delete", new { id = item.Id })
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.ActionLink("Editar", "Edit", new { id = item.Id }) 
+                        @Html.ActionLink(" Detalhes", "Details", new { id = item.Id })
+                        @Html.ActionLink(" Deletar", "Delete", new { id = item.Id })
+                    }
                 </td>
             </tr>
         }
